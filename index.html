@@ -1,0 +1,30 @@
+<!DOCTYPE = html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://th.bing.com/th/id/OIP.o-sha5j6LU7fXkDr3y2fqwAAAA?pid=ImgDet&rs=1">
+    <link rel="stylesheet" href="style.css">
+    <title>Tres en raya</title>
+</head>
+<body>
+    <main id="main">
+        <form id="register-player">
+            <input type="text" placeholder="Nombre del primer jugador" id="input-player1" autocomplete="off">
+            <input type="text" placeholder="Nombre del segundo jugador" id="input-player2" autocomplete="off">
+            <input type="submit" value="Jugar" id="btn-submit">
+        </form>
+        <section class="section-game">
+            <div class="data-game"></div>
+            <div class="matriz">
+                <div class="item-grid 00"></div> <div class="item-grid 01"></div> <div class="item-grid 02"></div>
+                <div class="item-grid 10"></div> <div class="item-grid 11"></div> <div class="item-grid 12"></div>
+                <div class="item-grid 20"></div> <div class="item-grid 21"></div> <div class="item-grid 22"></div>
+            </div>
+            <button class="btn-again"></button>
+        </section>
+    </main>
+    <script src="codigo.js"></script>
+</body>
+</html>
