@@ -2,7 +2,12 @@ const main = document.getElementById("main");
 const sectionGame = document.querySelector(".section-game");
 const formPlayers = document.getElementById("register-player");
 const containMatriz = document.querySelector(".matriz");
+
+const containButtons = document.querySelector('.buttons');
 const btnAgain = document.querySelector(".btn-again");
+const btnOtherPlayers = document.getElementById("other-players");
+
+const confeti = document.querySelector('.confeti');
 
 let turno = "X";
 let win = false;
@@ -21,9 +26,11 @@ const registerPlayer=(e)=>{
     e.preventDefault();
     const inputPlayer1 = document.getElementById("input-player1");
     const inputPlayer2 = document.getElementById("input-player2");
-    if(inputPlayer1.value != "" && inputPlayer2.value != ""){
-        players.player1 = inputPlayer1.value;
-        players.player2 = inputPlayer2.value;
+    if(inputPlayer1.value && inputPlayer2.value){
+        players = {
+            player1: inputPlayer1.value,
+            player2: inputPlayer2.value,
+        }
         startGame();
         e.target.reset();
     }
@@ -76,7 +83,7 @@ const verificarWin=()=>{
     };
 }
 const showButton =(message)=>{
-    btnAgain.style.display = "block"; 
+    containButtons.style.display = 'flex';
     btnAgain.textContent = message;
     btnAgain.addEventListener("click",playAgain);
 }
@@ -85,6 +92,7 @@ const empateMessage=()=>{
     showButton("Volver a jugar");
 }
 const winner=()=>{
+    confeti.style.display = 'block';
     if(turno == "X"){
         sectionGame.firstElementChild.textContent = `Felicidades ${players.player1} le has ganado a ${players.player2}`;    
     }else if(turno == "O"){
@@ -105,10 +113,11 @@ const cambiarTurno =()=>{
     sectionGame.firstElementChild.innerHTML = `Turno de: <b>${playerTurn}</b>`;
 }
 function playAgain(){
-    btnAgain.style.display = "none";
+    containButtons.style.display = 'none';
     turno = "X";
     win = false;
     empate = false;
+    confeti.style.display = "none";
     for (const items of containMatriz.children) {
         items.textContent = "";
     }

@@ -55,6 +55,11 @@
     align-items: center;
     justify-content: space-around;
 }
+.section-game .confeti{
+    position: absolute;
+    top: 0;
+    display: none;
+}
 .data-game{
     color: #fff;
     font-size: 2em;
@@ -75,19 +80,21 @@
     align-items: center;
     cursor: pointer;
 }
-
-.btn-again{
+.buttons{
     display: none;
-    cursor: pointer;
     position: absolute;
+    left: 10px;
+    bottom: 5px;
+    gap: 7px;
+}
+.btn{
+    cursor: pointer;
     font-size: 1.2em;
     padding: 5px;
     border-radius: 10px;
-    left: 10px;
-    bottom: 10px;
     transition: .5s;
 }
-.btn-again:hover{
+.btn:hover{
     background: #000;
     color: #fff;
 }
