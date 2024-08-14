@@ -7,17 +7,23 @@
     font-family:cursive
 }
 #main{
-    width: 100%;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(#34f,#4f5);
+}
+#main .confeti{
+    position: absolute;
+    top: 0;
+    display: none;
+    width: 80%;
+    height: 100%;
+    object-fit: cover;
 }
 #register-player{
     position: relative;
-    border-top-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-    background: linear-gradient(#34f,#4f5);
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -46,19 +52,11 @@
 .section-game{
     width: 700px;
     height: 500px;
-    background: linear-gradient(#34f,#4f5);
-    border-top-left-radius: 50px;
-    border-bottom-right-radius: 50px;
     display: none;
     position: relative;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-}
-.section-game .confeti{
-    position: absolute;
-    top: 0;
-    display: none;
 }
 .data-game{
     color: #fff;
@@ -83,6 +81,7 @@
 .buttons{
     display: none;
     position: absolute;
+    z-index: 999;
     left: 10px;
     bottom: 5px;
     gap: 7px;
