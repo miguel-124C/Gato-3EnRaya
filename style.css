@@ -1,3 +1,8 @@
+:root {
+    --bg-x: #34f;
+    --bg-o: #4f5;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -11,9 +16,43 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100vh;
-    background: linear-gradient(#34f,#4f5);
+    min-height: 100vh;
+    background: linear-gradient(var(--bg-x),var(--bg-o));
 }
+.turnX {
+    animation: changeTurnToX .5s forwards;
+}
+.turnY {
+    animation: changeTurnToY .5s forwards;
+}
+
+@keyframes changeTurnToX {
+  0% {
+    background: linear-gradient(to bottom, var(--bg-x) 0%, var(--bg-o) 100%);
+    background-size: 100% 200%;
+    background-position: bottom;
+  }
+  100% {
+    background: linear-gradient(to bottom, var(--bg-x) 0%, var(--bg-o) 100%);
+    background-size: 100% 200%;
+    background-position: top;
+  }
+}
+
+@keyframes changeTurnToY {
+  0% {
+    background: linear-gradient(to bottom, var(--bg-x) 0%, var(--bg-o) 100%);
+    background-size: 100% 200%;
+    background-position: top;
+  }
+  100% {
+    background: linear-gradient(to bottom, var(--bg-x) 0%, var(--bg-o) 100%);
+    background-size: 100% 200%;
+    background-position: bottom;
+  }
+}
+
+
 #main .confeti{
     position: absolute;
     top: 0;
@@ -24,55 +63,80 @@
 }
 #register-player{
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    display: grid;
     align-items: center;
-    width: 50%;
-    height: 400px;
+    gap: clamp(.1rem, 1vw, 1.5rem);
+    width: 90%;
+    max-width: 1080px;
+    min-height: 200px;
 }
+#register-player h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: clamp(2.5rem, 4vw, 10rem);
+    text-align: center;
+    padding: 10px 0;
+    animation: zoom 1s infinite ease-in-out alternate;
+}
+@keyframes zoom {
+    0%{ transform: scale(1.1); }
+    100%{ transform: scale(1); }
+}
+
 #register-player input{
-    background: #000;
+    background: #000000d4;
     color: #fff;
-    border-left: 2px solid red;
-    width: 75%;
-    height: 50px;
-    font-size: 1.2em;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: clamp(.5rem, 2vw, 5rem);
+    padding-left: 5px;
+    width: 100%;
+    font-size: clamp(2rem, 2vw, 4rem);
+}
+#register-player input::placeholder {
+    color: #ffffffc0;
 }
 #register-player #btn-submit{
-    border: none;
     cursor: pointer;
+    background: rgb(29, 28, 28);
+    border: 2px solid #989898;
 }
-#register-player input:hover{
-    box-shadow: 0 0 10px 0 #fff;
+#register-player #btn-submit:hover{
+    background: rgb(23, 23, 23);
+    border: 2px solid #d6d6d6;
+}
+#register-player input[type="text"]:hover{
+    box-shadow: 0 0 10px 0 #073559;
 }
 
 
 
 .section-game{
-    width: 700px;
-    height: 500px;
     display: none;
-    position: relative;
+    margin-bottom: 1rem;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    gap: clamp(.5rem, 2vw, 5rem);
 }
 .data-game{
     color: #fff;
-    font-size: 2em;
+    font-size: clamp(2.5rem, 3vw, 5rem);
 }
 .matriz{
+    width: 800px;
+    max-width: 1080px;
+    height: 800px;
     display: grid;
-    margin: 20px;
-    grid-template-columns: repeat(3,100px);
-    grid-template-rows: repeat(3,100px);
-    gap: 5px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: clamp(.2rem, 1vw, .5rem);
 }
 .item-grid{
     border-radius: 10px;
     background: #fff;
-    font-size: 4em;
+    font-size: clamp(2rem, 3vw, 4rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,16 +144,14 @@
 }
 .buttons{
     display: none;
-    position: absolute;
+    position: relative;
     z-index: 999;
-    left: 10px;
-    bottom: 5px;
     gap: 7px;
 }
 .btn{
     cursor: pointer;
-    font-size: 1.2em;
-    padding: 5px;
+    font-size: clamp(1rem, 2vw, 3rem);
+    padding: clamp(.5rem, 2vw, 1rem);
     border-radius: 10px;
     transition: .5s;
 }
@@ -98,24 +160,55 @@
     color: #fff;
 }
 
-@media screen and (max-width:720px) {
-    #register-player{
-        width: 90%;
+@media screen and (min-width: 1920px) {
+    #register-player h2 img {
+        width: 10rem;
     }
-    .section-game{
-        width: 90%;
-        height: 450px;
-    }   
+}
+@media screen and (max-width: 1920px) {
+    #register-player h2 img {
+        width: 7rem;
+        border-radius: 10px;
+    }
+    #register-player input{
+        border-radius: 10px;
+    }
     .matriz{
-        width: 100%;
-        height: 80%;
-        margin: 0;
-        justify-content: center;
-        align-content: center;
-        grid-template-columns: repeat(3,25%);
-        grid-template-rows: repeat(3,25%);
-    }    
-    .data-game{
-        font-size: 1.3em;
+        width: 500px;
+        height: 500px;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    #register-player h2 img {
+        width: 50px;
+        border-radius: 5px;
+    }
+    #register-player input{
+        border-radius: 5px;
+    }
+    .matriz{
+        width: 450px;
+        height: 450px;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .matriz{
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    #main{
+        /* min-width: 100vw; */
+        overflow: auto;
+        justify-content: flex-start;
+        padding: 0 1.3rem;
+    }
+    .matriz{
+        min-width: 100px;
+        min-height: 100px;
     }
 }

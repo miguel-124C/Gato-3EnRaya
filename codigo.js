@@ -9,36 +9,56 @@ const btnOtherPlayers = document.getElementById("other-players");
 
 const confeti = document.querySelector('.confeti');
 
+let enJuego = false;
 let turno = "X";
 let win = false;
 let empate = false;
 
-let players = {
-    player1 : "",
-    player2 : ""
-}
+let players = { p1 : "", p2 : "" }
 
 let matriz = [  [[""],[""],[""]],
                 [[""],[""],[""]],
-                [[""],[""],[""]]        ];
+                [[""],[""],[""]]
+            ];
 
 const registerPlayer=(e)=>{
     e.preventDefault();
-    const inputPlayer1 = document.getElementById("input-player1");
-    const inputPlayer2 = document.getElementById("input-player2");
-    if(inputPlayer1.value && inputPlayer2.value){
-        players = {
-            player1: inputPlayer1.value,
-            player2: inputPlayer2.value,
+    const inputP1 = document.getElementById("input-player1");
+    const inputP2 = document.getElementById("input-player2");
+    if(inputP1.value && inputP2.value){
+        const [valid1, error1] = validName(inputP1.value);
+        const [valid2, error2] = validName(inputP2.value);
+        console.log(valid1, error1);
+        console.log(valid2, error2);
+        
+        if (!valid1 || !valid2) {
+            alert(`Error name player \n J1: ${error1} \n J2: ${error2}`);
+            return;
         }
+
+        players = {
+            p1: inputP1.value,
+            p2: inputP2.value,
+        }
+
         startGame();
         e.target.reset();
     }
 }
+
+const validName = (name)=> {
+    const NAME = name.trim();
+    if (NAME.length === 0) return [false, "Ingrese un nombre válido"]
+    if( NAME.length > 15 ) return [false, "Nombre muy largo"]
+
+    return [true, "Todo correcto"];
+}
+
 const startGame=()=>{
+    enJuego = true;
     sectionGame.style.display = "flex";
     formPlayers.style.display = "none";
-    sectionGame.firstElementChild.innerHTML = `Turno de: <b>${players.player1}</b>`;
+    showMessage( msgTurn(players.p1) );
     for (const items of containMatriz.children) {
         items.addEventListener("click",()=>{
             let i = items.classList.item(1).substring(0,1);
@@ -51,67 +71,78 @@ const startGame=()=>{
             }
         });
     }
+
+    changeBgByTurn( turno );
 };
+
 const verificarWin=()=>{
     for(let i=0;i<3;i++){
         if( (matriz[i][0]=="X" && matriz[i][1]=="X" && matriz[i][2]=="X")||
             (matriz[i][0]=="O" && matriz[i][1]=="O" && matriz[i][2]=="O")){
             winner();
             win = true;
-            }
+        }
         if( (matriz[0][i]=="X" && matriz[1][i]=="X" && matriz[2][i]=="X")||
             (matriz[0][i]=="O" && matriz[1][i]=="O" && matriz[2][i]=="O")){
             winner();
-            win = true;
         };
     }
     if( (matriz[0][0]=="X" && matriz[1][1]=="X" && matriz[2][2]=="X")||
     (matriz[0][0]=="O" && matriz[1][1]=="O" && matriz[2][2]=="O")){
         winner();
-        win = true;
     };
     if( (matriz[2][0]=="X" && matriz[1][1]=="X" && matriz[0][2]=="X")||
     (matriz[2][0]=="O" && matriz[1][1]=="O" && matriz[0][2]=="O")){
         winner();
-        win = true;
     };
     if( (matriz[0][0]!="" && matriz[0][1]!="" && matriz[0][2]!="")&&
         (matriz[1][0]!="" && matriz[1][1]!="" && matriz[1][2]!="")&&
         (matriz[2][0]!="" && matriz[2][1]!="" && matriz[2][2]!="")&&(win == false)){
-            empate = true;
+        empate = true;
         empateMessage();
     };
 }
+
 const showButton =(message)=>{
     containButtons.style.display = 'flex';
     btnAgain.textContent = message;
     btnAgain.addEventListener("click",playAgain);
+    btnOtherPlayers.addEventListener("click", ()=> {
+        enJuego = false;
+        location.reload();
+    });
 }
+
 const empateMessage=()=>{
-    sectionGame.firstElementChild.textContent = `Nadie ganó, Empate`;   
+    showMessage(`Nadie ganó, Empate`);
     showButton("Volver a jugar");
 }
+
 const winner=()=>{
     confeti.style.display = 'block';
     if(turno == "X"){
-        sectionGame.firstElementChild.textContent = `Felicidades ${players.player1} le has ganado a ${players.player2}`;    
+        showMessage(`You Win, player: ${players.p1}!!!`);
     }else if(turno == "O"){
-        sectionGame.firstElementChild.textContent = `Felicidades ${players.player2} le has ganado a ${players.player1}`; 
+        showMessage(`You Win, player: ${players.p2}!!!`);
     }
     showButton("Revancha");
+    win = true;
 }
+
 const cambiarTurno =()=>{
-    let playerTurn;
+    if(win == true || empate == true) return;
+
     if(turno == "X") {
-        playerTurn = players.player2;
+        showMessage( msgTurn(players.p2) );
         turno = "O";
     }else {
-        playerTurn = players.player1;
+        showMessage( msgTurn(players.p1) );
         turno = "X";
     };
-    if(win == false && empate == false)
-    sectionGame.firstElementChild.innerHTML = `Turno de: <b>${playerTurn}</b>`;
+
+    changeBgByTurn( turno );
 }
+
 function playAgain(){
     containButtons.style.display = 'none';
     turno = "X";
@@ -129,4 +160,26 @@ function playAgain(){
     startGame();
 }
 
+function changeBgByTurn( turn ) {
+    if (turn === 'X') {
+        main.classList.remove('turnY');
+        main.classList.add('turnX');
+    }
+    if (turn === 'O') {
+        main.classList.remove('turnX');
+        main.classList.add('turnY');
+    }
+}
+
+const showMessage = (message) => sectionGame.firstElementChild.innerHTML = message;
+const msgTurn = (message) => `Turno de: <b>${message}</b>`;
+
 formPlayers.addEventListener("submit",registerPlayer);
+
+window.addEventListener('beforeunload', (event)=> {
+  if (enJuego) {
+    event.preventDefault();
+    event.returnValue = "";
+    return "";
+  }
+})
