@@ -180,6 +180,7 @@ window.addEventListener('beforeunload', (event)=> {
   if (enJuego) {
     event.preventDefault();
     event.returnValue = "";
+
     return "";
   }
 })
